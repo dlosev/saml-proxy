@@ -22,7 +22,7 @@ jobs:
 
       - name: set environment variables
         run: |
-          echo "EB_ENVIRONMENT=${{ env.GITHUB_REF_SLUG }} >> $GITHUB_ENV
+          echo "EB_ENVIRONMENT=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
 
       - name: create a github deployment
         uses: bobheadxi/deployments@v0.5.2
