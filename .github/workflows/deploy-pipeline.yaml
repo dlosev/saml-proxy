@@ -36,4 +36,4 @@ jobs:
           echo 2
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
           echo 3
-          eb create ${{env.GITHUB_HEAD_REF_SLUG}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
+          eb create ${{env.GITHUB_REF_NAME}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
