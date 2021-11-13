@@ -28,6 +28,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Build JAR
+        run: ./mvnw clean install -DskipTests=true
+
       - name: Deploy with EB CLI
         run: |
           pip install awsebcli --upgrade
