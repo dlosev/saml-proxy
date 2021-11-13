@@ -1,0 +1,23 @@
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          idp:
+            identityprovider:
+              entity-id: http://www.okta.com/exk2ma247fNw301Mp5d7
+              metadata-uri: https://dev-36942153.okta.com/app/exk2ma247fNw301Mp5d7/sso/saml/metadata
+              singlesignon:
+                sign-request: false
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /
+  endpoint:
+    health:
+      enabled: true
+
+server:
+  port: "${PORT}"

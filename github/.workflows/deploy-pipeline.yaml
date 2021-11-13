@@ -1,0 +1,35 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: eu-central-1
+  APP_NAME: ${{ github.event.repository.name }}
+  JAR_PATH: target/saml-proxy-0.0.1-SNAPSHOT.jar
+  APP_PORT: 8080
+  AWS_PLATFORM: corretto-11
+
+jobs:
+  deploy-aws:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: rlespinasse/github-slug-action@v3.x
+
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Deploy with EB CLI
+        run: |
+          eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
+          echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
+          eb create ${{env.GITHUB_HEAD_REF_SLUG}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
