@@ -30,6 +30,10 @@ jobs:
 
       - name: Deploy with EB CLI
         run: |
+          pip install awsebcli --upgrade
+
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
+
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
+
           eb create ${{env.GITHUB_HEAD_REF_SLUG}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
