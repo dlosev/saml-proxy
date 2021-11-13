@@ -11,6 +11,7 @@ env:
   JAR_PATH: target/saml-proxy-0.0.1-SNAPSHOT.jar
   APP_PORT: 8080
   AWS_PLATFORM: corretto-11
+  BASE_DOMAIN: saml-proxy.dmitrytest.site
 
 jobs:
   deploy-aws:
@@ -18,6 +19,21 @@ jobs:
 
     steps:
       - uses: rlespinasse/github-slug-action@v3.x
+
+      - name: set environment variables
+        run: |
+          echo "EB_ENVIRONMENT=${{ env.GITHUB_REF_SLUG }} >> $GITHUB_ENV
+
+      - name: create a github deployment
+        uses: bobheadxi/deployments@v0.5.2
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: ${{ env.EB_ENVIRONMENT }}
+          ref: ${{ github.head_ref }}
+          no_override: false
+          transient: true
 
       - uses: actions/checkout@v2
 
@@ -34,9 +50,21 @@ jobs:
       - name: Deploy with EB CLI
         run: |
           pip install awsebcli --upgrade
-          echo 1
+
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
-          echo 2
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
-          echo 3
-          eb create ${{env.GITHUB_REF_NAME}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
+
+          if (eb status ${{env.EB_ENVIRONMENT}}); then
+            eb deploy ${{env.EB_ENVIRONMENT}}
+          else
+            eb create ${{env.EB_ENVIRONMENT}} -i t2.micro -ix 1 --elb-type application --envvars PORT=${{env.APP_PORT}}
+          fi
+
+      - name: update the github deployment status
+        uses: bobheadxi/deployments@v0.5.2
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: ${{env.EB_ENVIRONMENT}}.${{ env.BASE_DOMAIN }}
