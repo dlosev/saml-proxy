@@ -67,4 +67,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           status: ${{ job.status }}
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: ${{env.EB_ENVIRONMENT}}.${{ env.BASE_DOMAIN }}
+          env_url: https://${{env.EB_ENVIRONMENT}}.${{ env.BASE_DOMAIN }}
