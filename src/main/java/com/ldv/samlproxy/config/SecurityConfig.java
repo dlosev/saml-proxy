@@ -1,6 +1,9 @@
 package com.ldv.samlproxy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
+import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -41,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/health").permitAll()
+                .antMatchers("/health", "/httptrace").permitAll()
                 .anyRequest().authenticated().and()
                 .saml2Login();
 
@@ -50,5 +53,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         Saml2MetadataFilter filter = new Saml2MetadataFilter(relyingPartyRegistrationResolver, new OpenSamlMetadataResolver());
 
         http.addFilterBefore(filter, Saml2WebSsoAuthenticationFilter.class);
+    }
+
+    @Bean
+    public HttpTraceRepository httpTraceRepository() {
+        return new InMemoryHttpTraceRepository();
     }
 }
