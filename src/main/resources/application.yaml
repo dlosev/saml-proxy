@@ -25,3 +25,4 @@ management:
 
 server:
   port: "${PORT:8080}"
+  forward-headers-strategy: native
