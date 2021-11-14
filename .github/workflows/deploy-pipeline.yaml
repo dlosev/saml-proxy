@@ -57,7 +57,7 @@ jobs:
           if (eb status ${{env.EB_ENVIRONMENT}}); then
             eb deploy ${{env.EB_ENVIRONMENT}}
           else
-            eb create ${{env.EB_ENVIRONMENT}} -i t2.micro -ix 1 --elb-type application --envvars PORT=${{env.APP_PORT}}
+            eb create ${{env.EB_ENVIRONMENT}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}}
           fi
 
       - name: update the github deployment status
