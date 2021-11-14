@@ -5,8 +5,8 @@ spring:
         registration:
           idp:
             identityprovider:
-              entity-id: http://www.okta.com/exk2ma247fNw301Mp5d7
-              metadata-uri: https://dev-36942153.okta.com/app/exk2ma247fNw301Mp5d7/sso/saml/metadata
+              entity-id: ${IDP_ID:http://localhost:9080}
+              metadata-uri: ${IDP_METADATA_URL:http://localhost:9080/metadata}
               singlesignon:
                 sign-request: false
 
@@ -20,5 +20,8 @@ management:
       enabled: true
 
 server:
-  port: "${PORT:8080}"
-  forward-headers-strategy: native
+  port: ${PORT:8080}
+  forward-headers-strategy: none
+
+custom:
+  login-redirect-url: ${LOGIN_REDIRECT_URL:http://localhost:8080/}

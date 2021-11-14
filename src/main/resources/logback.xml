@@ -6,8 +6,10 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework" level="TRACE"/>
-    <logger name="org.springframework.security" level="TRACE"/>
+    <logger name="com.ldv.samlproxy" level="DEBUG"/>
+
+    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.security" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

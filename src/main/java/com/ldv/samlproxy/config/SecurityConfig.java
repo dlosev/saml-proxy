@@ -41,8 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/health").permitAll()
-                .anyRequest().authenticated().and()
+                .antMatchers("/login", "/auth").authenticated().and()
                 .saml2Login();
 
         Converter<HttpServletRequest, RelyingPartyRegistration> relyingPartyRegistrationResolver =
