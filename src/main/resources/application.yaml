@@ -24,4 +24,7 @@ server:
   forward-headers-strategy: native
 
 custom:
+  admin:
+    username: ${ADMIN_USERNAME}
+    password: ${ADMIN_PASSWORD}
   login-redirect-url: ${LOGIN_REDIRECT_URL:http://localhost:8080/}

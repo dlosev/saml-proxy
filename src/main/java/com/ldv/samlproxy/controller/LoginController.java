@@ -15,7 +15,7 @@ import org.springframework.web.servlet.view.RedirectView;
  * @since 11/14/21
  */
 @Controller
-@RequestMapping({"/login", "/auth"})
+@RequestMapping("/auth")
 public class LoginController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);

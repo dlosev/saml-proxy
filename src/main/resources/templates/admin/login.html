@@ -1,0 +1,26 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+    <div sec:authorize="isAnonymous()">
+        <div th:if="${param.error}">
+            <div class="alert alert-danger">
+                Invalid username and password.
+            </div>
+        </div>
+        <form action="#" th:action="@{/admin/login}" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password">
+
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit">Log in</button>
+        </form>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+        <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
+        <form th:action="@{/admin/logout}" method="post">
+            <button type="submit">Log out</button>
+        </form>
+    </div>
+</html>

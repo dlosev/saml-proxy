@@ -7,6 +7,7 @@ TODO:
    org.springframework.security.authentication.CredentialsExpiredException: Authentication statement is too old to be used with value 2021-10-08T17:57:33.898Z
     ```
 4. Logging level can be configured and logs can be downloaded via admin UI;
-5. Configuration must be dynamically updated for the running app after admin changes it 
-
+5. Configuration must be dynamically updated for the running app after admin changes it; 
+6. Save configuration on disk;
+7. Save http sessions on disk
 

@@ -57,7 +57,7 @@ jobs:
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
 
-          envs="PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}}"
+          envs="PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secret.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secret.ADMIN_PASSWORD}}"
 
           if (eb status ${{env.EB_ENVIRONMENT}}); then
             eb setenv $envs -e ${{env.EB_ENVIRONMENT}}

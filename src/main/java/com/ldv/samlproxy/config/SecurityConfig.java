@@ -2,6 +2,7 @@ package com.ldv.samlproxy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * @since 11/13/21
  */
 @Configuration
+@Order(2)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -41,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/login", "/auth").authenticated().and()
+                .antMatchers("/auth").hasRole("USER")
+                .and()
                 .saml2Login();
 
         Converter<HttpServletRequest, RelyingPartyRegistration> relyingPartyRegistrationResolver =
