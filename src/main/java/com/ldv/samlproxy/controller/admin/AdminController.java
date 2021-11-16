@@ -23,16 +23,16 @@ public class AdminController {
 
     @GetMapping("login")
     public String showLoginForm() {
-        return "/admin/login";
+        return "admin/login";
     }
 
     @GetMapping("config")
     public String showConfigForm() {
-        return "/admin/config";
+        return "admin/config";
     }
 
     @GetMapping({"", "/"})
     public RedirectView redirectWithUsingRedirectView(Principal principal) {
-        return new RedirectView(principal == null ? "/admin/login" : "/admin/config");
+        return new RedirectView(principal == null ? "admin/login" : "admin/config");
     }
 }

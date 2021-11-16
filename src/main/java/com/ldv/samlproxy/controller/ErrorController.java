@@ -18,6 +18,6 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         String errorMessage = (throwable != null ? throwable.getMessage() : "Unknown error");
         model.addAttribute("errorMessage", errorMessage);
 
-        return "/error";
+        return "error";
     }
 }
