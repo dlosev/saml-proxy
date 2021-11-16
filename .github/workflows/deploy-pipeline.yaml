@@ -57,11 +57,13 @@ jobs:
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
 
+          envs="PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}}"
+
           if (eb status ${{env.EB_ENVIRONMENT}}); then
-            eb setenv PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} -e ${{env.EB_ENVIRONMENT}}
+            eb setenv $envs -e ${{env.EB_ENVIRONMENT}}
             eb deploy ${{env.EB_ENVIRONMENT}}
           else
-            eb create ${{env.EB_ENVIRONMENT}} -i t2.micro -ix 1 --envvars PORT=${{env.APP_PORT}},IDP_ID=${{env.IDP_ID}},IDP_METADATA_URL=${{env.IDP_METADATA_URL}},LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}}
+            eb create ${{env.EB_ENVIRONMENT}} --elb-type application -i t2.micro -ix 1 --envvars ${envs// /,}
           fi
 
       - name: update the github deployment status
