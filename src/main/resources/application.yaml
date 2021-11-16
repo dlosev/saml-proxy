@@ -9,6 +9,8 @@ spring:
               metadata-uri: ${IDP_METADATA_URL:http://localhost:9080/metadata}
               singlesignon:
                 sign-request: false
+  thymeleaf:
+    prefix: classpath:/templates/
 
 management:
   endpoints:
