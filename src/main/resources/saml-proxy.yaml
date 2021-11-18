@@ -1,0 +1,16 @@
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          idp:
+            identityprovider:
+              entity-id: ${IDP_ID:http://localhost:9080}
+              metadata-uri: ${IDP_METADATA_URL:http://localhost:9080/metadata}
+              singlesignon:
+                sign-request: false
+custom:
+  admin:
+    username: ${ADMIN_USERNAME}
+    password: ${ADMIN_PASSWORD}
+  login-redirect-url: http://google.ru

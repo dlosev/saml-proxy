@@ -10,6 +10,7 @@
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.security" level="INFO"/>
+    <logger name="org.springframework.cloud" level="DEBUG"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

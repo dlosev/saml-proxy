@@ -10,4 +10,5 @@ TODO:
 5. Configuration must be dynamically updated for the running app after admin changes it; 
 6. Save configuration on disk;
 7. Save http sessions on disk
+8. Resolve first run issue. When config file is not yet created, but beans can't initialize, because some properties are missing  
 

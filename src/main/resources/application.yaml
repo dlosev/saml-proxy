@@ -1,14 +1,13 @@
+custom:
+  data-dir: ${DATA-DIRF:${user.dir}}
+
 spring:
-  security:
-    saml2:
-      relyingparty:
-        registration:
-          idp:
-            identityprovider:
-              entity-id: ${IDP_ID:http://localhost:9080}
-              metadata-uri: ${IDP_METADATA_URL:http://localhost:9080/metadata}
-              singlesignon:
-                sign-request: false
+  config:
+    import: "optional:file:${custom.data-dir}/saml-proxy.yaml"
+  cloud:
+    config:
+      import-check:
+        enabled: false
   thymeleaf:
     prefix: classpath:/templates/
 
@@ -24,9 +23,3 @@ management:
 server:
   port: ${PORT:8080}
   forward-headers-strategy: native
-
-custom:
-  admin:
-    username: ${ADMIN_USERNAME}
-    password: ${ADMIN_PASSWORD}
-  login-redirect-url: ${LOGIN_REDIRECT_URL:http://localhost:8080/}

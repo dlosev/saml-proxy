@@ -2,6 +2,7 @@ package com.ldv.samlproxy.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +24,9 @@ import javax.servlet.http.HttpServletRequest;
  * @since 11/13/21
  */
 @Configuration
-@Order(2)
+@Order(20)
 @EnableWebSecurity
+@DependsOn("dataStoreConfig")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig() {
