@@ -9,9 +9,14 @@ spring:
     config:
       import-check:
         enabled: false
+  web:
+    resources:
+      static-locations: ${WEB_RESOURCES_PATH:classpath:/static}
+      chain:
+        cache: ${WEB_RESOURCES_CACHE:true}
   thymeleaf:
     cache: ${TEMPLATE_CACHE:true}
-    prefix: classpath:/templates/
+    prefix: ${TEMPLATE_PATH:classpath:/templates/}
 
 management:
   endpoints:

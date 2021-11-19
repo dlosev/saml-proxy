@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>Base Layout</title>
+
+        <link th:href="@{/webjars/bootstrap/5.1.3/dist/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+        <link href="/main.css" rel="stylesheet">
+        <script th:src="@{/webjars/jquery/3.6.0/dist/jquery.min.js}" type="text/javascript"></script>
+    </head>
+    <body>
+        <header>
+            <nav class="py-2 bg-light border-bottom">
+                <div class="container d-flex flex-wrap">
+                    <form id="logout-form" class="d-none" th:action="@{/admin/logout}" method="post"></form>
+                    <ul class="nav me-auto">
+                        <li class="nav-item"><a th:href="@{/admin/config}" class="nav-link link-dark px-2 active" aria-current="page">Config</a></li>
+                    </ul>
+                    <ul class="nav">
+                        <li class="nav-item">
+                            <a sec:authorize="isAuthenticated()" href="javascript:void(0);" id="logout-btn" class="nav-link link-dark px-2" >Logout</a>
+                            <a sec:authorize="isAnonymous()" th:href="@{/admin/login}" class="nav-link link-dark px-2">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <section class="container my-5">
+            <div layout:fragment="content"></div>
+        </section>
+
+        <footer class="fixed-bottom">
+            <div class="py-3 my-4">
+                <ul class="nav justify-content-center border-bottom pb-3 mb-3"></ul>
+                <p class="text-center text-muted">© 2021 SAML2 Proxy app</p>
+            </div>
+        </footer>
+
+        <script th:src="@{/webjars/bootstrap/5.1.3/dist/js/bootstrap.min.js}" type="text/javascript"></script>
+    </body>
+    <script>
+        $(document).ready(() => {
+            $('#logout-btn').click(() => {
+              $('#logout-form').submit();
+            });
+        });
+    </script>
+</html>

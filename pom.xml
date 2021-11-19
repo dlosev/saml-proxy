@@ -18,6 +18,8 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2020.0.4</spring-cloud.version>
+		<bootstrap.version>5.1.3</bootstrap.version>
+		<jquery.version>3.6.0</jquery.version>
 	</properties>
 
 	<dependencies>
@@ -49,15 +51,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.thymeleaf.extras</groupId>
 			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
 		</dependency>
-
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>${jackson-bom.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>${bootstrap.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>jquery</artifactId>
+			<version>${jquery.version}</version>
 		</dependency>
 
 		<dependency>

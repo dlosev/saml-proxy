@@ -1,11 +1,40 @@
-<h1>Configuration</h1>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{fragments/layout}">
+    <head>
+        <title>Admin - Configuration</title>
+    </head>
+    <body>
+        <div layout:fragment="content">
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="sp-tab" data-bs-toggle="tab" data-bs-target="#sp"
+                            type="button" role="tab" aria-controls="sp" aria-selected="true">Service Provider</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="idp-tab" data-bs-toggle="tab" data-bs-target="#idp"
+                            type="button" role="tab" aria-controls="idp" aria-selected="false">Identity Provider</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="system-tab" data-bs-toggle="tab" data-bs-target="#system"
+                            type="button" role="tab" aria-controls="system" aria-selected="false">System</button>
+                </li>
+            </ul>
+            <div class="tab-content px-3 py-5">
+                <div class="tab-pane fade show active" id="sp" role="tabpanel" aria-labelledby="sp-tab">
+                    <form th:action="@{/admin/config}" th:object="${config}" method="post">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Username" th:field="*{customAdminUsername}" />
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Password" th:field="*{customAdminPassword}" />
 
-<form th:action="@{/admin/config}" th:object="${config}" method="post">
-    <label for="username">Username</label>
-    <input type="text" id="username" placeholder="Username" th:field="*{customAdminUsername}" />
-    <label for="password">Password</label>
-    <input type="password" id="password" placeholder="Password" th:field="*{customAdminPassword}" />
-
-    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <button type="submit">Save</button>
-</form>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <button type="submit">Save</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="idp" role="tabpanel" aria-labelledby="idp-tab"></div>
+                <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab"></div>
+            </div>
+        </div>
+    </body>
+</html>
