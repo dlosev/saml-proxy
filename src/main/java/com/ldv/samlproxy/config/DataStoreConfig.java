@@ -22,24 +22,23 @@ import java.io.InputStream;
 public class DataStoreConfig {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DataStoreConfig.class);
-    private static final String CONFIG_FILE_NAME = "saml-proxy.yaml";
 
-    @Value("${custom.data-dir}")
-    private String dataDir;
+    @Value("${custom.config-file}")
+    private String configFile;
 
     @PostConstruct
     public void init() throws Exception {
-        LOGGER.info("Configuration file will be stored in [{}] directory", dataDir);
+        LOGGER.info("Configuration file will be stored in as [{}]", configFile);
 
-        File configFile = new File(dataDir, CONFIG_FILE_NAME);
+        File configFile = new File(this.configFile);
 
         if (configFile.exists()) {
             LOGGER.info("Config file [{}] already exist", configFile);
         } else {
             LOGGER.info("Creating new config file [{}]", configFile);
 
-            InputStream config = this.getClass().getClassLoader().getResourceAsStream(CONFIG_FILE_NAME);
-            Assert.notNull(config, String.format("%s file doesn't exist in classpath", CONFIG_FILE_NAME));
+            InputStream config = this.getClass().getClassLoader().getResourceAsStream(configFile.getName());
+            Assert.notNull(config, String.format("%s file doesn't exist in classpath", configFile.getName()));
 
             FileCopyUtils.copy(config, new FileOutputStream(configFile));
         }

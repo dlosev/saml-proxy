@@ -1,1 +1,11 @@
 <h1>Configuration</h1>
+
+<form th:action="@{/admin/config}" th:object="${config}" method="post">
+    <label for="username">Username</label>
+    <input type="text" id="username" placeholder="Username" th:field="*{customAdminUsername}" />
+    <label for="password">Password</label>
+    <input type="password" id="password" placeholder="Password" th:field="*{customAdminPassword}" />
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <button type="submit">Save</button>
+</form>

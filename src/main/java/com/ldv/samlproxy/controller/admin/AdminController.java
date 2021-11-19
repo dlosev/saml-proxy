@@ -1,12 +1,17 @@
 package com.ldv.samlproxy.controller.admin;
 
+import com.ldv.samlproxy.controller.service.ConfigManager;
+import com.ldv.samlproxy.dto.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.endpoint.event.RefreshEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -27,20 +32,35 @@ public class AdminController {
     @Autowired
     private ApplicationEventPublisher eventPublisher;
 
+    @Autowired
+    private ConfigManager configManager;
+
     @GetMapping("login")
     public String showLoginForm() {
         return "admin/login";
     }
 
     @GetMapping("config")
-    public String showConfigForm() {
+    public String showConfigForm(Model model) throws Exception {
+        return "admin/config";
+    }
+
+    @PostMapping("config")
+    private String saveConfig(@ModelAttribute("config") Config config) throws Exception {
+        configManager.saveConfig(config);
+
         eventPublisher.publishEvent(new RefreshEvent(this, "RefreshEvent", "Refreshing scope"));
 
-        return "admin/config";
+        return "redirect:config";
     }
 
     @GetMapping({"", "/"})
     public RedirectView redirectWithUsingRedirectView(Principal principal) {
         return new RedirectView(principal == null ? "admin/login" : "admin/config");
+    }
+
+    @ModelAttribute
+    public void addAttributes(Model model) throws Exception {
+        model.addAttribute("config", configManager.loadConfig());
     }
 }

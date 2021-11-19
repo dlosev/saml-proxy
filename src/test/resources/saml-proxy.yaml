@@ -1,0 +1,16 @@
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          idp:
+            identityprovider:
+              entity-id: http://www.okta.com/exk2mr5bm7QMy4sgi5d7
+              metadata-uri: https://dev-36942153.okta.com/app/exk2mr5bm7QMy4sgi5d7/sso/saml/metadata
+              singlesignon:
+                sign-request: false
+custom:
+  admin:
+    username: admin
+    password: admin
+  login-redirect-url: http://google.ru
