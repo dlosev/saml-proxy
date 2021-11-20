@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <!--<springProperty scope="context" name="LOGGING_FILE_PATH" source="logging.file.path"/>
-    <springProperty scope="context" name="LOGGING_FILE_NAME" source="logging.file.name"/>-->
-
-<!--    <property name="LOG_FILE" value="${LOGGING_FILE_PATH}/${LOGGING_FILE_NAME}"/>-->
-
     <include resource="org/springframework/boot/logging/logback/base.xml" />
 
     <logger name="com.ldv.samlproxy" level="DEBUG"/>

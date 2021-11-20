@@ -5,3 +5,7 @@ html, body {
 .alert {
     word-break: break-word;
 }
+
+.form-switch .form-check-input, .form-switch .form-check-label {
+    cursor: pointer;
+}

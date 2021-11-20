@@ -34,7 +34,7 @@ public class AdminSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .requestMatchers()
-                .antMatchers("/admin", "/admin/**")
+                .antMatchers("/admin", "/admin/**", "/logfile")
                 .and()
                 .authorizeRequests()
                 .antMatchers("/admin/login").hasAnyRole("ANONYMOUS", "ADMIN")

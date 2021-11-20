@@ -6,7 +6,7 @@
     </head>
     <body>
         <div layout:fragment="content">
-            <ul class="nav nav-tabs" role="tablist">
+            <ul class="nav nav-tabs" id="config-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link active" id="sp-tab" data-bs-toggle="tab" data-bs-target="#sp"
                             type="button" role="tab" aria-controls="sp" aria-selected="true">Service Provider</button>
@@ -33,8 +33,20 @@
                     </form>
                 </div>
                 <div class="tab-pane fade" id="idp" role="tabpanel" aria-labelledby="idp-tab"></div>
-                <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab"></div>
+                <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
+                    <div th:replace="fragments/logging-config :: content"></div>
+                </div>
             </div>
+            <script>
+              $(document).ready(() => {
+                const hash = window.location.hash;
+                hash && $('#config-tabs .nav-link[data-bs-target="' + hash + '"]').tab('show');
+
+                $('#config-tabs .nav-link').click(function () {
+                  window.location.hash = $(this).attr('data-bs-target');
+                });
+              });
+            </script>
         </div>
     </body>
 </html>

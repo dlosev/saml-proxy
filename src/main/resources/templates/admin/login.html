@@ -21,7 +21,7 @@
                         </div>
                     </div>
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="btn btn-primary">Sign in</button>
+                    <button type="submit" class="btn btn-primary">Log in</button>
                 </form>
                 <div th:if="${param.error} and ${session}" th:with="errorMsg=${session['SPRING_SECURITY_LAST_EXCEPTION']}">
                     <div class="alert alert-danger" role="alert" th:text="${errorMsg}"></div>

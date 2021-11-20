@@ -1,7 +1,9 @@
 package com.ldv.samlproxy.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.boot.logging.LogLevel;
 
 /**
  * .
@@ -29,6 +31,9 @@ public class Config {
 
     @JsonProperty("spring.security.saml2.relyingparty.registration.idp.identityprovider.entity-id")
     private String idpId;
+
+    @JsonProperty("logging.level.root")
+    private LogLevel loggingLevel;
 
     public String getCustomAdminUsername() {
         return customAdminUsername;
@@ -76,5 +81,18 @@ public class Config {
 
     public void setIdpId(String idpId) {
         this.idpId = idpId;
+    }
+
+    public LogLevel getLoggingLevel() {
+        return loggingLevel;
+    }
+
+    public void setLoggingLevel(LogLevel loggingLevel) {
+        this.loggingLevel = loggingLevel;
+    }
+
+    @JsonIgnore
+    public boolean isLoggingDebug() {
+        return LogLevel.DEBUG.equals(loggingLevel);
     }
 }

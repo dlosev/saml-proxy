@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <div class="container" th:fragment="content">
+        <div class="row">
+            <div class="col-sm-6 col-lg-4 pb-3">
+                Log file location:
+            </div>
+            <div class="col-sm-6 col-lg-4 pb-3">
+                <a class="text-decoration-none" target="_blank" th:href="@{/logfile}" th:text="${@environment.getProperty('logging.file.name')}"></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 col-lg-4">
+                Logging level DEBUG:
+            </div>
+            <div class="col-sm-6 col-lg-4">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="debugging-level-input" th:checked="${config.loggingDebug}">
+                    <label class="form-check-label" for="debugging-level-input">On</label>
+                </div>
+            </div>
+        </div>
+        <script th:inline="javascript">
+          $(document).ready(() => {
+            $('#debugging-level-input').change(function() {
+              $.post( "/admin/config",
+                $.param({
+                  'loggingLevel': this.checked ? 'DEBUG' : 'INFO',
+                  [[${_csrf.parameterName}]]: [[${_csrf.token}]]
+                }));
+            });
+          });
+        </script>
+    </div>
+</html>
