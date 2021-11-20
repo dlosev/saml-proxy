@@ -40,9 +40,12 @@ public class DataStoreConfig {
             InputStream config = this.getClass().getClassLoader().getResourceAsStream(configFile.getName());
             Assert.notNull(config, String.format("%s file doesn't exist in classpath", configFile.getName()));
 
-            boolean created = configFile.getParentFile().mkdirs();
-            if (!created) {
-                LOGGER.warn("Unable to create directories for {} path", configFile);
+            if (!configFile.getParentFile().exists()) {
+                boolean created = configFile.getParentFile().mkdirs();
+
+                if (!created) {
+                    LOGGER.warn("Unable to create directories for {} file", configFile);
+                }
             }
 
             FileCopyUtils.copy(config, new FileOutputStream(configFile));

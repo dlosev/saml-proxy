@@ -60,7 +60,7 @@ public class AdminController {
     }
 
     @ModelAttribute
-    public void addAttributes(Model model) throws Exception {
+    public void addAttributes(Model model) {
         model.addAttribute("config", configManager.loadConfig());
     }
 }

@@ -35,6 +35,15 @@ public class Config {
     @JsonProperty("logging.level.root")
     private LogLevel loggingLevel;
 
+    @JsonProperty("spring.security.saml2.relyingparty.registration.idp.entity-id")
+    private String spEntityId;
+
+    @JsonProperty("spring.security.saml2.relyingparty.registration.idp.signing.credentials[0].certificate-location")
+    private String spSigningX509Certificate;
+
+    @JsonProperty("spring.security.saml2.relyingparty.registration.idp.signing.credentials[0].private-key-location")
+    private String spSigningPrivateKey;
+
     public String getCustomAdminUsername() {
         return customAdminUsername;
     }
@@ -94,5 +103,29 @@ public class Config {
     @JsonIgnore
     public boolean isLoggingDebug() {
         return LogLevel.DEBUG.equals(loggingLevel);
+    }
+
+    public String getSpEntityId() {
+        return spEntityId;
+    }
+
+    public void setSpEntityId(String spEntityId) {
+        this.spEntityId = spEntityId;
+    }
+
+    public String getSpSigningX509Certificate() {
+        return spSigningX509Certificate;
+    }
+
+    public void setSpSigningX509Certificate(String spSigningX509Certificate) {
+        this.spSigningX509Certificate = spSigningX509Certificate;
+    }
+
+    public String getSpSigningPrivateKey() {
+        return spSigningPrivateKey;
+    }
+
+    public void setSpSigningPrivateKey(String spSigningPrivateKey) {
+        this.spSigningPrivateKey = spSigningPrivateKey;
     }
 }

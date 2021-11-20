@@ -49,10 +49,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .saml2Login();
 
+        http.addFilterBefore(saml2MetadataFilter(), Saml2WebSsoAuthenticationFilter.class);
+    }
+
+    public Saml2MetadataFilter saml2MetadataFilter() {
         Converter<HttpServletRequest, RelyingPartyRegistration> relyingPartyRegistrationResolver =
                 new DefaultRelyingPartyRegistrationResolver(relyingPartyRegistrationRepository);
-        Saml2MetadataFilter filter = new Saml2MetadataFilter(relyingPartyRegistrationResolver, new OpenSamlMetadataResolver());
 
-        http.addFilterBefore(filter, Saml2WebSsoAuthenticationFilter.class);
+        return new Saml2MetadataFilter(relyingPartyRegistrationResolver, new OpenSamlMetadataResolver());
     }
 }
