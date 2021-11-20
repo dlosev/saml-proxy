@@ -21,17 +21,7 @@
                 </li>
             </ul>
             <div class="tab-content px-3 py-5">
-                <div class="tab-pane fade show active" id="sp" role="tabpanel" aria-labelledby="sp-tab">
-                    <form th:action="@{/admin/config}" th:object="${config}" method="post">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" placeholder="Username" th:field="*{customAdminUsername}" />
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Password" th:field="*{customAdminPassword}" />
-
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                        <button type="submit">Save</button>
-                    </form>
-                </div>
+                <div class="tab-pane fade show active" id="sp" role="tabpanel" aria-labelledby="sp-tab"></div>
                 <div class="tab-pane fade" id="idp" role="tabpanel" aria-labelledby="idp-tab"></div>
                 <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
                     <div th:replace="fragments/logging-config :: content"></div>
