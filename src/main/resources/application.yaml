@@ -1,5 +1,5 @@
 custom:
-  data-dir: ${DATA-DIR:${user.dir}}
+  data-dir: ${DATA-DIR:.}/config
   config-file: ${custom.data-dir}/saml-proxy.yaml
 
 spring:
@@ -26,6 +26,15 @@ management:
   endpoint:
     health:
       enabled: true
+
+logging:
+  file:
+    name: ${LOG_FILE:./logs/saml-proxy.log}
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+      total-size-cap: 200MB
 
 server:
   port: ${PORT:8080}
