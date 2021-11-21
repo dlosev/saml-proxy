@@ -29,6 +29,7 @@ jobs:
           echo "EB_ENVIRONMENT=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
 
       - run: |
-          echo "${{secrets.SERVICE_ACCOUNT}}" > 1.json
+          printf "${{secrets.SERVICE_ACCOUNT}}" > 1.json
           ls -la
+          cat 1.json
           cat 1.json | jq
