@@ -27,50 +27,7 @@ jobs:
         run: |
           echo "EB_ENVIRONMENT=${{ env.GITHUB_REF_SLUG }}" >> $GITHUB_ENV
 
-      - name: create a github deployment
-        uses: bobheadxi/deployments@v0.5.2
-        id: deployment
-        with:
-          step: start
-          token: ${{ secrets.GITHUB_TOKEN }}
-          env: ${{ env.EB_ENVIRONMENT }}
-          ref: ${{ github.head_ref }}
-          no_override: false
-          transient: true
-
-      - uses: actions/checkout@v2
-
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
-
-      - name: Build JAR
-        run: ./mvnw clean install -DskipTests=true
-
-      - name: Deploy with EB CLI
-        run: |
-          pip install awsebcli --upgrade
-
-          eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
-          echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
-
-          envs="PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secrets.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secrets.ADMIN_PASSWORD}}"
-
-          if (eb status ${{env.EB_ENVIRONMENT}}); then
-            eb setenv $envs -e ${{env.EB_ENVIRONMENT}}
-            eb deploy ${{env.EB_ENVIRONMENT}}
-          else
-            eb create ${{env.EB_ENVIRONMENT}} --elb-type application -i t2.micro -ix 1 --envvars ${envs// /,}
-          fi
-
-      - name: update the github deployment status
-        uses: bobheadxi/deployments@v0.5.2
-        with:
-          step: finish
-          token: ${{ secrets.GITHUB_TOKEN }}
-          status: ${{ job.status }}
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-          env_url: https://${{env.EB_ENVIRONMENT}}.${{ env.BASE_DOMAIN }}
+      - run: |
+          echo "${{secrets.SERVICE_ACCOUNT}}" > 1.json
+          ls -la
+          cat 1.json
