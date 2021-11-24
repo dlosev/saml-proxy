@@ -9,12 +9,14 @@ import org.springframework.cloud.endpoint.event.RefreshEvent;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
 /**
@@ -46,7 +48,11 @@ public class AdminController {
     }
 
     @PostMapping("config")
-    private String saveConfig(@ModelAttribute("config") Config config) throws Exception {
+    private String saveConfig(@Valid @ModelAttribute("config") Config config, BindingResult result, Model model) throws Exception {
+        if(result.hasErrors()) {
+            return "admin/config";
+        }
+
         configManager.saveConfig(config);
 
         eventPublisher.publishEvent(new RefreshEvent(this, "RefreshEvent", "Refreshing scope"));

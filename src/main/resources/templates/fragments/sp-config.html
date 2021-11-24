@@ -9,36 +9,32 @@
                 <div class="row mb-3">
                     <label for="entityId" class="col-sm-3 col-form-label">Entity ID</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" id="entityId" th:field="*{spEntityId}" required>
-                        <div class="form-text">Entity ID is uniq identifier for an identity or service provider. Value is included in the generated metadata</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="entityBaseUrl" class="col-sm-3 col-form-label">Entity base URL</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" id="entityBaseUrl">
-                        <div class="form-text">Base to generate URLs for this server. For example: https://myServer:443/saml-app. The public address your server will be accessed from should be used here</div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <label for="entityAlias" class="col-sm-3 col-form-label">Entity alias</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" id="entityAlias">
-                        <div class="form-text">Alias is an internal mechanism allowing collocating multiple service providers on one server. When set, alias must be uniq</div>
+                        <input type="text" th:errorclass="is-invalid" class="form-control" id="entityId"
+                               th:field="*{spEntityId}" required>
+                        <div class="form-text">Entity ID is uniq identifier for an identity or service provider. Value is included in the generated metadata.</div>
+                        <div class="form-text">This value may contain a number of placeholders. They are {baseUrl}, {registrationId}, {baseScheme}, {baseHost}, and {basePort}</div>
+                        <div th:if="${#fields.hasErrors('spEntityId')}" th:errors="*{spEntityId}"
+                             th:errorclass="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="certificate" class="col-sm-3 col-form-label">X509 Certificate</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="certificate" rows="3" th:field="*{spSigningX509Certificate}" required></textarea>
+                        <textarea th:errorclass="is-invalid" class="form-control" id="certificate" rows="3"
+                                  th:field="*{spSigningX509Certificate}" required></textarea>
                         <div class="form-text">Public key will be included in the metadata</div>
+                        <div th:if="${#fields.hasErrors('spSigningX509Certificate')}" th:errors="*{spSigningX509Certificate}"
+                             th:errorclass="invalid-feedback"></div>
                     </div>
                 </div>
                 <div class="row mb-3">
                     <label for="privateKey" class="col-sm-3 col-form-label">Private Key</label>
                     <div class="col-sm-9">
-                        <textarea class="form-control" id="privateKey" rows="3" th:field="*{spSigningPrivateKey}" required></textarea>
+                        <textarea th:errorclass="is-invalid" class="form-control" id="privateKey" rows="3"
+                                  th:field="*{spSigningPrivateKey}" required></textarea>
                         <div class="form-text">Will be used to encrypt the request to IDP</div>
+                        <div th:if="${#fields.hasErrors('spSigningPrivateKey')}" th:errors="*{spSigningPrivateKey}"
+                             th:errorclass="invalid-feedback"></div>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>

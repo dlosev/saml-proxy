@@ -1,11 +1,14 @@
 custom:
   data-dir: ${DATA-DIR:.}/config
   config-file: ${custom.data-dir}/saml-proxy.yaml
+  idp-metadata-location: file:${custom.data-dir}/idp-metadata.xml
 
 spring:
   config:
     import: "optional:file:${custom.config-file}"
   cloud:
+    compatibility-verifier:
+      enabled: false
     config:
       import-check:
         enabled: false

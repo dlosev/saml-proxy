@@ -39,8 +39,8 @@ import java.util.stream.Collectors;
 @ConditionalOnMissingBean(RelyingPartyRegistrationRepository.class)
 public class RefreshableSaml2RelyingPartyRegistrationConfiguration {
 
-    @Bean
-    @RefreshScope
+    //@Bean
+    //@RefreshScope
     RelyingPartyRegistrationRepository relyingPartyRegistrationRepository(Saml2RelyingPartyProperties properties) {
         List<RelyingPartyRegistration> registrations = properties.getRegistration().entrySet().stream()
                 .map(this::asRegistration).collect(Collectors.toList());
