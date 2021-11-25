@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ldv.samlproxy.validation.RSAPrivateKeyConstraint;
+import com.ldv.samlproxy.validation.SamlMetadataConstraint;
 import com.ldv.samlproxy.validation.X509CertificateConstraint;
 import org.springframework.boot.logging.LogLevel;
 
@@ -56,6 +57,10 @@ public class Config {
 
     @JsonProperty("spring.security.saml2.relyingparty.registration.idp.signing.credentials[0].private-key-location")
     private String spSigningPrivateKeyLocation;
+
+    @JsonIgnore
+    @SamlMetadataConstraint
+    private String idpMetadata;
 
     public String getCustomAdminUsername() {
         return customAdminUsername;
@@ -156,5 +161,13 @@ public class Config {
 
     public void setSpSigningPrivateKeyLocation(String spSigningPrivateKeyLocation) {
         this.spSigningPrivateKeyLocation = spSigningPrivateKeyLocation;
+    }
+
+    public String getIdpMetadata() {
+        return idpMetadata;
+    }
+
+    public void setIdpMetadata(String idpMetadata) {
+        this.idpMetadata = idpMetadata;
     }
 }

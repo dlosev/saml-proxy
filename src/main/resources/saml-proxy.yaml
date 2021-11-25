@@ -5,8 +5,8 @@ spring:
         registration:
           idp:
             identityprovider:
-              entity-id: ${IDP_ID:http://localhost:9080}
-              metadata-uri: ${IDP_METADATA_URL:http://localhost:9080/metadata}
+              entity-id: http://www.okta.com/exk2mr5bm7QMy4sgi5d7
+              metadata-uri: "classpath:default-idp-metadata.xml"
               singlesignon:
                 sign-request: false
             entity-id: "{baseUrl}/saml2/service-provider-metadata/{registrationId}"

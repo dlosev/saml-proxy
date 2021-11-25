@@ -20,7 +20,7 @@
                 <div class="row mb-3">
                     <label for="certificate" class="col-sm-3 col-form-label">X509 Certificate</label>
                     <div class="col-sm-9">
-                        <textarea th:errorclass="is-invalid" class="form-control" id="certificate" rows="3"
+                        <textarea th:errorclass="is-invalid" class="form-control" id="certificate" rows="10"
                                   th:field="*{spSigningX509Certificate}" required></textarea>
                         <div class="form-text">Public key will be included in the metadata</div>
                         <div th:if="${#fields.hasErrors('spSigningX509Certificate')}" th:errors="*{spSigningX509Certificate}"
@@ -30,7 +30,7 @@
                 <div class="row mb-3">
                     <label for="privateKey" class="col-sm-3 col-form-label">Private Key</label>
                     <div class="col-sm-9">
-                        <textarea th:errorclass="is-invalid" class="form-control" id="privateKey" rows="3"
+                        <textarea th:errorclass="is-invalid" class="form-control" id="privateKey" rows="15"
                                   th:field="*{spSigningPrivateKey}" required></textarea>
                         <div class="form-text">Will be used to encrypt the request to IDP</div>
                         <div th:if="${#fields.hasErrors('spSigningPrivateKey')}" th:errors="*{spSigningPrivateKey}"

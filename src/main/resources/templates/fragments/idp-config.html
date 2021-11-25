@@ -14,7 +14,10 @@
             </div>
             <div class="row mb-3">
                 <div class="col-sm-12">
-                    <textarea class="form-control" id="privateKey" rows="3" th:field="*{spSigningPrivateKey}" required></textarea>
+                    <label for="idpMetadata" class="form-label">Metadata</label>
+                    <textarea th:errorclass="is-invalid" class="form-control" id="idpMetadata" rows="20" th:field="*{idpMetadata}" required></textarea>
+                    <div th:if="${#fields.hasErrors('idpMetadata')}" th:errors="*{idpMetadata}"
+                         th:errorclass="invalid-feedback"></div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Save</button>

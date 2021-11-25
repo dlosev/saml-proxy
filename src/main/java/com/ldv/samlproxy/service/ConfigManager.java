@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
@@ -42,14 +41,14 @@ public class ConfigManager {
     @Value("${custom.config-file}")
     private File configFile;
 
+    @Value("${custom.idp-metadata-location}")
+    private Resource idpMetadata;
+
     @Value("file:${custom.data-dir}/private-key.pem")
     private Resource privateKeyFile;
 
     @Value("file:${custom.data-dir}/certificate.pem")
     private Resource certificateFile;
-
-    @Autowired
-    private Saml2RelyingPartyProperties properties;
 
     @Autowired
     private Environment env;
@@ -78,12 +77,14 @@ public class ConfigManager {
         Config result = config.get();
 
         readCredentials(result);
+        readMetadata(result);
 
         return result;
     }
 
     public void saveConfig(Config config) throws Exception {
         writeCredentials(config);
+        writeMetadata(config);
 
         ObjectReader objectReader = mapper.readerForUpdating(loadConfig());
         Config updatedConfig = objectReader.readValue(mapper.writeValueAsString(config));
@@ -113,6 +114,16 @@ public class ConfigManager {
         }
     }
 
+    private void readMetadata(Config config) {
+        if (idpMetadata.exists()) {
+            try (InputStreamReader isr = new InputStreamReader(idpMetadata.getInputStream())) {
+                config.setIdpMetadata(FileCopyUtils.copyToString(isr));
+            } catch (Exception e) {
+                LOGGER.warn("Unable to read IDP metadata file", e);
+            }
+        }
+    }
+
     private void writeCredentials(Config config) throws Exception {
         if (StringUtils.hasText(config.getSpSigningPrivateKey())) {
             FileCopyUtils.copy(config.getSpSigningPrivateKey().getBytes(), privateKeyFile.getFile());
@@ -133,22 +144,12 @@ public class ConfigManager {
         }
     }
 
-    private void readCredentials2(Config config) {
-        properties.getRegistration().values().stream().findFirst().flatMap(registration ->
-                registration.getSigning().getCredentials().stream().findFirst()).ifPresent(credential -> {
-            if (credential.getPrivateKeyLocation().exists() && credential.getCertificateLocation().exists()) {
-                try (InputStreamReader isr = new InputStreamReader(credential.getPrivateKeyLocation().getInputStream())) {
-                    config.setSpSigningPrivateKey(FileCopyUtils.copyToString(isr));
-                } catch (Exception e) {
-                    LOGGER.warn("Unable to read private file", e);
-                }
-                try (InputStreamReader isr = new InputStreamReader(credential.getCertificateLocation().getInputStream())) {
-                    config.setSpSigningX509Certificate(FileCopyUtils.copyToString(isr));
-                } catch (Exception e) {
-                    LOGGER.warn("Unable to read X509 certificate form file", e);
-                }
-            }
-        });
+    private void writeMetadata(Config config) throws Exception {
+        if (StringUtils.hasText(config.getIdpMetadata())) {
+            FileCopyUtils.copy(config.getIdpMetadata().getBytes(), idpMetadata.getFile());
+        } else {
+            deleteFile(idpMetadata);
+        }
     }
 
     private void deleteFile(Resource file) throws Exception {
