@@ -1,4 +1,4 @@
-package com.ldv.samlproxy.controller.service;
+package com.ldv.samlproxy.service;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,12 +14,10 @@ import org.springframework.boot.env.OriginTrackedMapPropertySource;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
-import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.HashMap;
@@ -39,11 +37,9 @@ public class ConfigManager {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigManager.class);
 
-    private static final String PRIVATE_KEY_FILE_NAME = "private-key.pem";
-    private static final String CERTIFICATE_FILE_NAME = "certificate.pem";
-
     private final ObjectMapper mapper;
 
+    @Value("${custom.config-file}")
     private File configFile;
 
     @Value("file:${custom.data-dir}/private-key.pem")
@@ -51,9 +47,6 @@ public class ConfigManager {
 
     @Value("file:${custom.data-dir}/certificate.pem")
     private Resource certificateFile;
-
-    @Autowired
-    private RelyingPartyRegistrationRepository relyingPartyRegistrationRepository;
 
     @Autowired
     private Saml2RelyingPartyProperties properties;
@@ -67,16 +60,6 @@ public class ConfigManager {
                 .build());
 
         mapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-    }
-
-    @PostConstruct
-    public void init() throws Exception {
-        configFile = new File(env.getRequiredProperty("custom.config-file"));
-
-        String dataDir = env.getRequiredProperty("custom.data-dir");
-
-        //privateKeyFile = new FileUrlResource(String.format("file:%s/%s", dataDir, PRIVATE_KEY_FILE_NAME));
-        //certificateFile = new FileUrlResource(String.format("file:%s/%s", dataDir, CERTIFICATE_FILE_NAME));
     }
 
     public Config loadConfig() {

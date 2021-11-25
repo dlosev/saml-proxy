@@ -1,4 +1,4 @@
-package com.ldv.samlproxy.controller.service;
+package com.ldv.samlproxy.service;
 
 import com.ldv.samlproxy.dto.Config;
 import org.junit.jupiter.api.Test;

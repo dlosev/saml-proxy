@@ -1,6 +1,6 @@
 package com.ldv.samlproxy.controller.admin;
 
-import com.ldv.samlproxy.controller.service.ConfigManager;
+import com.ldv.samlproxy.service.ConfigManager;
 import com.ldv.samlproxy.dto.Config;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
