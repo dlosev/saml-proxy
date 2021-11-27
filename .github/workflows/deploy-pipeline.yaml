@@ -11,9 +11,8 @@ env:
   JAR_PATH: target/saml-proxy-0.0.1-SNAPSHOT.jar
   APP_PORT: 8080
   AWS_PLATFORM: corretto-11
+  SSH_KEY_NAME: default
   BASE_DOMAIN: saml-proxy.dmitrytest.site
-  IDP_ID: http://www.okta.com/exk2ma247fNw301Mp5d7
-  IDP_METADATA_URL: https://dev-36942153.okta.com/app/exk2ma247fNw301Mp5d7/sso/saml/metadata
   LOGIN_REDIRECT_URL: https://google.com
 
 jobs:
@@ -57,13 +56,13 @@ jobs:
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
 
-          envs="PORT=${{env.APP_PORT}} IDP_ID=${{env.IDP_ID}} IDP_METADATA_URL=${{env.IDP_METADATA_URL}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secrets.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secrets.ADMIN_PASSWORD}}"
+          envs="PORT=${{env.APP_PORT}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secrets.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secrets.ADMIN_PASSWORD}}"
 
           if (eb status ${{env.EB_ENVIRONMENT}}); then
             eb setenv $envs -e ${{env.EB_ENVIRONMENT}}
             eb deploy ${{env.EB_ENVIRONMENT}}
           else
-            eb create ${{env.EB_ENVIRONMENT}} --elb-type application -i t2.micro -ix 1 --envvars ${envs// /,}
+            eb create ${{env.EB_ENVIRONMENT}} --elb-type application -i t2.micro -ix 1 --envvars ${envs// /,} -k ${{env.SSH_KEY_NAME}}
           fi
 
       - name: update the github deployment status
