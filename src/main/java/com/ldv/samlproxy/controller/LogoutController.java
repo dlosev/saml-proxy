@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 11/23/21
  */
 @Controller
-@RequestMapping("/logout2")
+@RequestMapping("/signout")
 public class LogoutController {
 
     @GetMapping
