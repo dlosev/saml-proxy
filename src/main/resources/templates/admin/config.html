@@ -8,39 +8,44 @@
         <div layout:fragment="content">
             <ul class="nav nav-tabs" id="config-tabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="sp-tab" data-bs-toggle="tab" data-bs-target="#sp"
-                            type="button" role="tab" aria-controls="sp" aria-selected="true">Service Provider</button>
+                    <a th:classappend="${mode == 'overview' ? 'active disabled' : ''}" th:href="@{/admin/config}"
+                       class="nav-link" id="overview-tab" type="button" role="tab" aria-controls="overview"
+                       aria-selected="true">Overview</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="idp-tab" data-bs-toggle="tab" data-bs-target="#idp"
-                            type="button" role="tab" aria-controls="idp" aria-selected="false">Identity Provider</button>
+                    <a th:classappend="${mode == 'sp' ? 'active disabled' : ''}" th:href="@{/admin/config/sp}" class="nav-link"
+                       id="sp-tab" type="button" role="tab" aria-controls="sp" aria-selected="false">Service Provider</a>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="system-tab" data-bs-toggle="tab" data-bs-target="#system"
-                            type="button" role="tab" aria-controls="system" aria-selected="false">System</button>
+                    <a th:classappend="${mode == 'idp' ? 'active disabled' : ''}" th:href="@{/admin/config/idp}" class="nav-link"
+                       id="idp-tab" type="button" role="tab" aria-controls="idp" aria-selected="false">Identity Provider</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a th:classappend="${mode == 'system' ? 'active disabled' : ''}" th:href="@{/admin/config/system}"
+                       class="nav-link" id="system-tab" type="button" role="tab" aria-controls="system"
+                       aria-selected="false">System</a>
                 </li>
             </ul>
-            <div class="tab-content px-3 py-5">
-                <div class="tab-pane fade show active" id="sp" role="tabpanel" aria-labelledby="sp-tab">
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show mt-3 mb-0" role="alert">
+                Configuration has been successfully updated
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            <div th:switch="${mode}" class="tab-content px-3 py-5">
+                <div th:case="'overview'" class="tab-pane fade show active" id="overview" role="tabpanel"
+                     aria-labelledby="overview-tab">
+                    <div th:replace="fragments/overview-config :: content"></div>
+                </div>
+                <div th:case="'sp'" class="tab-pane fade show active" id="sp" role="tabpanel" aria-labelledby="sp-tab">
                     <div th:replace="fragments/sp-config :: content"></div>
                 </div>
-                <div class="tab-pane fade" id="idp" role="tabpanel" aria-labelledby="idp-tab">
+                <div th:case="'idp'" class="tab-pane fade show active" id="idp" role="tabpanel" aria-labelledby="idp-tab">
                     <div th:replace="fragments/idp-config :: content"></div>
                 </div>
-                <div class="tab-pane fade" id="system" role="tabpanel" aria-labelledby="system-tab">
-                    <div th:replace="fragments/logging-config :: content"></div>
+                <div th:case="'system'" class="tab-pane fade show active" id="system" role="tabpanel"
+                     aria-labelledby="system-tab">
+                    <div th:replace="fragments/system-config :: content"></div>
                 </div>
             </div>
-            <script>
-              $(document).ready(() => {
-                const hash = window.location.hash;
-                hash && $('#config-tabs .nav-link[data-bs-target="' + hash + '"]').tab('show');
-
-                $('#config-tabs .nav-link').click(function () {
-                  window.location.hash = $(this).attr('data-bs-target');
-                });
-              });
-            </script>
         </div>
     </body>
 </html>

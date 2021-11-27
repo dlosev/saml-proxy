@@ -5,12 +5,10 @@
     <p>IDP Metadata</p>
     <hr/>
     <div class="row">
-        <form th:action="@{/admin/config}" th:object="${config}" method="post">
+        <form th:action="@{''}" th:object="${idpConfig}" method="post">
             <div class="row mb-3">
-                <label for="entityId" class="col-sm-3 col-form-label">Entity ID</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="entityId" th:field="*{idpId}" required>
-                </div>
+                <label class="col-sm-2 col-form-label">Entity ID:</label>
+                <label class="col-sm-10 col-form-label" th:text="${idpEntityId}"></label>
             </div>
             <div class="row mb-3">
                 <div class="col-sm-12">

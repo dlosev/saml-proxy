@@ -1,6 +1,6 @@
 package com.ldv.samlproxy.service;
 
-import com.ldv.samlproxy.dto.Config;
+import com.ldv.samlproxy.dto.config.SystemConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,8 +25,8 @@ public class ConfigManagerTest {
     private ConfigManager configManager = new ConfigManager();
 
     @Test
-    public void testLoadConfig() throws Exception {
-        Config config = configManager.loadConfig();
+    public void testLoadConfig() {
+        SystemConfig config = configManager.loadSystemConfig();
 
         assertThat(config, notNullValue());
         assertThat(config.getCustomLoginRedirectUrl(), is(not(emptyString())));

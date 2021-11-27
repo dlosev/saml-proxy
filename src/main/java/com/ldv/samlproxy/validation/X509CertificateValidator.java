@@ -2,7 +2,6 @@ package com.ldv.samlproxy.validation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -26,7 +25,7 @@ public class X509CertificateValidator extends PKIValidator implements Constraint
 
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        if (StringUtils.hasText(s)) {
+        if (s != null) {
             try (InputStream is = asInputStream(s)) {
                 CertificateFactory.getInstance("X.509").generateCertificate(is);
             } catch (Exception e) {

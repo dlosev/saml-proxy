@@ -25,14 +25,16 @@ public class SamlMetadataValidator implements ConstraintValidator<SamlMetadataCo
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        try {
-            RelyingPartyRegistrations
-                    .fromMetadata(new ByteArrayInputStream(value.getBytes()))
-                    .build();
-        } catch (RuntimeException e) {
-            LOGGER.debug("Unable to convert string to a SAML IDP metadata:", e);
+        if (value != null) {
+            try {
+                RelyingPartyRegistrations
+                        .fromMetadata(new ByteArrayInputStream(value.getBytes()))
+                        .build();
+            } catch (RuntimeException e) {
+                LOGGER.debug("Unable to convert string to a SAML IDP metadata:", e);
 
-            return false;
+                return false;
+            }
         }
 
         return true;

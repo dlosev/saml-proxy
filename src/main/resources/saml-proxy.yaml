@@ -9,7 +9,7 @@ spring:
               metadata-uri: "classpath:default-idp-metadata.xml"
               singlesignon:
                 sign-request: false
-            entity-id: "{baseUrl}/saml2/service-provider-metadata/{registrationId}"
+            entity-id: "{baseUrl}/saml2/service-provider-metadata/idp"
 
 logging:
   level:

@@ -5,14 +5,14 @@
         <p>Generates New / Updates Existing Service Provider Metadata</p>
         <hr/>
         <div class="row">
-            <form th:action="@{/admin/config}" th:object="${config}" method="post">
+            <form th:action="@{''}" th:object="${spConfig}" method="post">
                 <div class="row mb-3">
                     <label for="entityId" class="col-sm-3 col-form-label">Entity ID</label>
                     <div class="col-sm-9">
                         <input type="text" th:errorclass="is-invalid" class="form-control" id="entityId"
                                th:field="*{spEntityId}" required>
                         <div class="form-text">Entity ID is uniq identifier for an identity or service provider. Value is included in the generated metadata.</div>
-                        <div class="form-text">This value may contain a number of placeholders. They are {baseUrl}, {registrationId}, {baseScheme}, {baseHost}, and {basePort}</div>
+                        <div class="form-text">This value may contain a number of placeholders. They are {baseUrl}, {baseScheme}, {baseHost}, and {basePort}</div>
                         <div th:if="${#fields.hasErrors('spEntityId')}" th:errors="*{spEntityId}"
                              th:errorclass="invalid-feedback"></div>
                     </div>

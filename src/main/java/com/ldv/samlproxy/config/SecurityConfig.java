@@ -56,7 +56,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .relyingPartyRegistrationRepository(relyingPartyRegistrationRepository());
 
         http.addFilterBefore(samlConfigurationFilter(), Saml2WebSsoAuthenticationRequestFilter.class);
-        http.addFilterBefore(saml2MetadataFilter(), Saml2WebSsoAuthenticationFilter.class);
+
+        Saml2MetadataFilter saml2MetadataFilter = new Saml2MetadataFilter(relyingPartyRegistrationResolver(),
+                new OpenSamlMetadataResolver());
+        http.addFilterBefore(saml2MetadataFilter, Saml2WebSsoAuthenticationFilter.class);
     }
 
     @Bean
@@ -72,14 +75,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public SamlConfigurationFilter samlConfigurationFilter() {
-        return new SamlConfigurationFilter("idp");
+    public RelyingPartyRegistrationResolver relyingPartyRegistrationResolver() {
+        return new DefaultRelyingPartyRegistrationResolver(relyingPartyRegistrationRepository());
     }
 
-    public Saml2MetadataFilter saml2MetadataFilter() {
-        RelyingPartyRegistrationResolver relyingPartyRegistrationResolver =
-                new DefaultRelyingPartyRegistrationResolver(relyingPartyRegistrationRepository());
-
-        return new Saml2MetadataFilter(relyingPartyRegistrationResolver, new OpenSamlMetadataResolver());
+    @Bean
+    public SamlConfigurationFilter samlConfigurationFilter() {
+        return new SamlConfigurationFilter("idp");
     }
 }

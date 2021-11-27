@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div class="container" th:fragment="content">
+    <h2>Metadata administration</h2>
+    <p>Overview of all configured metadata for local service providers and remote identity providers</p>
+    <hr/>
+    <div class="row">
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div>Service providers:</div>
+                <a class="text-decoration-none" target="_blank" th:href="@{/saml2/service-provider-metadata/idp}" th:text="${spEntityId}"></a>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-sm-9">
+                <div>Identity providers:</div>
+                <a class="text-decoration-none" target="_blank" th:href="@{/admin/idp-metadata}" th:text="${idpEntityId}"></a>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
