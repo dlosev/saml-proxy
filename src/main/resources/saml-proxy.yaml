@@ -5,7 +5,6 @@ spring:
         registration:
           idp:
             identityprovider:
-              entity-id: http://www.okta.com/exk2mr5bm7QMy4sgi5d7
               metadata-uri: "classpath:default-idp-metadata.xml"
               singlesignon:
                 sign-request: false

@@ -183,8 +183,11 @@ public class ConfigManager {
         if (config.getIdpMetadata() != null) {
             if (!config.getIdpMetadata().isEmpty()) {
                 FileCopyUtils.copy(config.getIdpMetadata().getBytes(), idpMetadata.getFile());
+
+                config.setIdpMetadataUri(idpMetadata.getURI().toString());
             } else {
                 deleteFile(idpMetadata);
+                config.setIdpMetadataUri("classpath:default-idp-metadata.xml");
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.ldv.samlproxy.config;
 
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.ErrorPageRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.HandlerExceptionResolver;
@@ -26,6 +28,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> exceptionResolvers) {
         exceptionResolvers.add(simpleMappingExceptionResolver());
+    }
+
+    @Bean
+    public ErrorPageRegistrar errorPageRegistrar() {
+        return registry -> registry.addErrorPages(new ErrorPage(Throwable.class, "/error"));
     }
 
     @Bean

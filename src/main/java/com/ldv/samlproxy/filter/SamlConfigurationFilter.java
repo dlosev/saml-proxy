@@ -7,10 +7,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.FlashMap;
 import org.springframework.web.servlet.HandlerExceptionResolver;
-import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
-import org.springframework.web.servlet.support.SessionFlashMapManager;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -45,17 +42,7 @@ public class SamlConfigurationFilter extends OncePerRequestFilter {
         if (!this.requestMatcher.matcher(request).isMatch() || idpMetadata.exists()) {
             filterChain.doFilter(request, response);
         } else {
-            SessionFlashMapManager flashMapManager = new SessionFlashMapManager();
-            FlashMap flashMap = flashMapManager.retrieveAndUpdate(request, response);
-
-            if (flashMap == null) {
-                flashMap = new FlashMap();
-            }
-
-            flashMap.put(SimpleMappingExceptionResolver.DEFAULT_EXCEPTION_ATTRIBUTE, new Exception("IDP metadata isn't configured"));
-            flashMapManager.saveOutputFlashMap(flashMap, request, response);
-
-            response.sendRedirect("/error");
+            throw new ServletException("IDP metadata isn't configured");
         }
     }
 }
