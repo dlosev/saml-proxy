@@ -5,7 +5,7 @@ custom:
 
 spring:
   config:
-    import: "optional:file:${custom.config-file}"
+    import: "file:${custom.config-file}"
   cloud:
     compatibility-verifier:
       enabled: false

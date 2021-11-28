@@ -6,7 +6,6 @@ import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyPr
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +27,6 @@ import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilt
 @Configuration
 @Order(20)
 @EnableWebSecurity
-@DependsOn("dataStoreConfig")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     public SecurityConfig() {
