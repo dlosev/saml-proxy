@@ -12,6 +12,7 @@ env:
   APP_PORT: 8080
   AWS_PLATFORM: corretto-11
   SSH_KEY_NAME: default
+  DATA_DIR: /opt
   BASE_DOMAIN: saml-proxy.dmitrytest.site
   LOGIN_REDIRECT_URL: https://google.com
 
@@ -56,7 +57,7 @@ jobs:
           eb init ${{env.APP_NAME}} -p ${{env.AWS_PLATFORM}} -r ${{env.AWS_REGION}}
           echo -e "deploy:\n  artifact: ${{env.JAR_PATH}}" >> .elasticbeanstalk/config.yml
 
-          envs="PORT=${{env.APP_PORT}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secrets.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secrets.ADMIN_PASSWORD}}"
+          envs="PORT=${{env.APP_PORT}} DATA_DIR=${{env.DATA_DIR}} LOGIN_REDIRECT_URL=${{env.LOGIN_REDIRECT_URL}} ADMIN_USERNAME=${{secrets.ADMIN_USERNAME}} ADMIN_PASSWORD=${{secrets.ADMIN_PASSWORD}}"
 
           if (eb status ${{env.EB_ENVIRONMENT}}); then
             eb setenv $envs -e ${{env.EB_ENVIRONMENT}}
