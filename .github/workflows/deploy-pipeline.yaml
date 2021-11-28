@@ -12,7 +12,7 @@ env:
   APP_PORT: 8080
   AWS_PLATFORM: corretto-11
   SSH_KEY_NAME: default
-  DATA_DIR: /opt
+  DATA_DIR: /home/webapp
   BASE_DOMAIN: saml-proxy.dmitrytest.site
   LOGIN_REDIRECT_URL: https://google.com
 
