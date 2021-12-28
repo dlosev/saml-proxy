@@ -1,13 +1,10 @@
 package com.ldv.samlproxy.filter;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -24,10 +21,6 @@ import java.io.IOException;
 public class SamlConfigurationFilter extends OncePerRequestFilter {
 
     private final RequestMatcher requestMatcher;
-
-    @Autowired
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
 
     @Value("${custom.idp-metadata-location}")
     private Resource idpMetadata;
