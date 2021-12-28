@@ -2,7 +2,7 @@
 <configuration>
     <include resource="org/springframework/boot/logging/logback/base.xml" />
 
-    <logger name="com.ldv.samlproxy" level="DEBUG"/>
+    <logger name="com.ldv.samlproxy" level="INFO"/>
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.security" level="INFO"/>
