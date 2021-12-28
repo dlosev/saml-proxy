@@ -1,6 +1,7 @@
 package com.ldv.samlproxy.config;
 
 import com.ldv.samlproxy.filter.SamlConfigurationFilter;
+import com.ldv.samlproxy.filter.SamlSessionExpirationFilter;
 import com.ldv.samlproxy.saml2.RelyingPartyRegistrationBuilder;
 import org.springframework.boot.autoconfigure.security.saml2.Saml2RelyingPartyProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
@@ -17,6 +18,7 @@ import org.springframework.security.saml2.provider.service.servlet.filter.Saml2W
 import org.springframework.security.saml2.provider.service.web.DefaultRelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.RelyingPartyRegistrationResolver;
 import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilter;
+import org.springframework.security.web.session.SessionManagementFilter;
 
 /**
  * .
@@ -28,6 +30,8 @@ import org.springframework.security.saml2.provider.service.web.Saml2MetadataFilt
 @Order(20)
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final String AUTH_REQUEST_PATTERN = "/auth";
 
     public SecurityConfig() {
         super(true);
@@ -42,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
                 .authorizeRequests()
-                .antMatchers("/auth").hasRole("USER")
+                .antMatchers(AUTH_REQUEST_PATTERN).hasRole("USER")
                 .and()
                 .saml2Login()
                 .relyingPartyRegistrationRepository(relyingPartyRegistrationRepository())
@@ -58,6 +62,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         Saml2MetadataFilter saml2MetadataFilter = new Saml2MetadataFilter(relyingPartyRegistrationResolver(),
                 new OpenSamlMetadataResolver());
         http.addFilterBefore(saml2MetadataFilter, Saml2WebSsoAuthenticationFilter.class);
+
+        http.addFilterBefore(samlSessionExpirationFilter(), SessionManagementFilter.class);
     }
 
     @Bean
@@ -80,5 +86,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SamlConfigurationFilter samlConfigurationFilter() {
         return new SamlConfigurationFilter("idp");
+    }
+
+    @Bean
+    public SamlSessionExpirationFilter samlSessionExpirationFilter() {
+        return new SamlSessionExpirationFilter(AUTH_REQUEST_PATTERN);
     }
 }
